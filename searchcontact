@@ -1,0 +1,25 @@
+echo search by last name or type exit
+read lname
+if [ "$lname" = "exit" ]
+then 
+exit 0
+fi
+while [ "$lname" != "exit" ]
+do
+ma=$(cut -d: -f2 contacts | cut -d" " -f2 | grep "$lname" )
+while [ -z "$lname" ]
+do
+echo no results try again 
+read lname
+ma=$(grep "$lname" | cut -d: -f2 contacts | cut -d" " -f2 )
+echo $ma
+done
+na=$(grep -i " $ma" contacts | sort -k2 -t:)
+echo $na
+echo search by last name or type exit
+read lname
+if [ "$lname" = "exit" ]
+then 
+exit 0
+fi
+done

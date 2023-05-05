@@ -1,0 +1,60 @@
+echo select an option or type exit
+echo a-Delete all contacts
+echo b-Modify contact info
+read option 
+while [ "$option" != "exit" ]
+do
+if [ "$option" = "a" ]
+then
+echo "" > contacts
+echo contacts were deleted succesfully!
+elif [ "$option" = "b"  ]
+then
+echo type the id number of the contact you would like to modify 
+read id
+check=$(grep $id contacts | cut -d: -f1 )
+while [ "$id" != "$check" ]
+do
+echo invalid id doesnt exist enter an id or exit
+read id
+check=$(grep $id contacts | cut -d: -f1 )
+done
+if [ "$id" != "exit" ]
+then
+echo select weather to modify
+echo 1-phone number
+echo 2-first name
+read selectedmod
+fi
+if [ "$selectedmod" = "1" ] 
+then
+selectednumber=$(grep $id contacts |cut -d: -f3)
+echo type a new phone number starting with 0097- and followed by 7 numbers
+read newphonenumber
+while [[ $newphonenumber != [0][0][9][7][0-9][0-9][0-9][-][0-9][0-9][0-9][0-9] ]]
+do
+echo invalid phone number,try again
+read newphonenumber
+done
+sed -i "s/$selectednumber/$newphonenumber/" contacts
+echo phone number was changed successfully!
+else
+selectedname=$(cat contacts|grep $id | cut -d: -f2 | cut -d" " -f1)
+echo type the new first name
+read newfirstname
+while [[ "$newfirstname" =~ [0-9] ]] || [[ "$newfirstname" =~ [" "]  ]] || [[ -z "$newfirstname" ]]
+do
+echo invalid name try again
+echo Enter contacts First name
+read firstname
+done
+sed -i "s/$id:$selectedname/$id:$newfirstname/" contacts
+echo first name was changed successfully!
+fi
+fi
+echo select an option or type exit
+echo a-Delete all contacts
+echo b-Modify contact info
+read option 
+done
+exit 0

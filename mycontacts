@@ -1,0 +1,28 @@
+echo Select an option
+echo 1-addcontact
+echo 2-modify contact
+echo 3-search contacts
+read op
+while [ $op != 4 ]
+do
+case $op in
+1)./addcontact
+;;
+2)./modifycontact
+;;
+3)./searchcontact
+;;
+*) echo invalid
+esac
+echo Select an option or exit
+echo 1-addcontact
+echo 2-modify contact
+echo 3-search contacts
+read op
+if [ "$op" = "exit" ]
+then 
+exit 0
+fi
+done
+echo goodbye
+
